@@ -1,7 +1,7 @@
 #include "mbed.h"
  
 DigitalOut led1(LED1);
-DigitalOut led2(LED2);
+DigitalOut led2(LED2,1);
  
 int main() {
     while (true) {
