@@ -62,7 +62,7 @@ int main() {
 
     while (true) { /* super loop */
 		int i;
-		char js_symb = '-';
+		char js_symb = '-';/* default value for when not pressed */
         red = !red;
         AS_Green = !AS_Green;
 
