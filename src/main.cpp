@@ -42,12 +42,27 @@ C12832 lcd(D11, D13, D12, D7, D10);
 AnalogIn Left_pot(A0);
 AnalogIn Right_pot(A1);
 
+/* Joystick switches on Application shield
+ * pins are connected such that pressed reads as a 1
+ *     down:A3
+ *     left:A4
+ *   centre:D4
+ *       up:A2
+ *    right:A5
+ *
+ * We can use the array initialisation of objects
+ */
+DigitalIn joystick[5] = { D4, A2, A3, A4, A5};
+char       symbols[5] = {'C','U','D','L','R'};
+
 int main() {
     lcd.cls();                  /* clear the screen */
     lcd.locate(0,0);            /* position at top-left corner */
     lcd.printf("Hello world\n");
 
     while (true) { /* super loop */
+		int i;
+		char js_symb = '-';
         red = !red;
         AS_Green = !AS_Green;
 
@@ -55,6 +70,14 @@ int main() {
         lcd.printf(" Left Pot: %.2f\n", (float)Left_pot);
         lcd.printf("Right Pot: %.2f\n", (float)Right_pot);
 
+		/* scan through joystick switches */
+		for( i=0 ; i<5 ; i++) {
+			if( joystick[i] ) {/*if joystick pressed */
+				js_symb = symbols[i]; /* set symbol indicator */
+			}
+		}
+		lcd.locate(64,0); /* half way across the top */
+		lcd.printf("joystick: %c", js_symb);
         wait(0.5);
     }
 }
