@@ -1,8 +1,6 @@
 #include "mbed.h"
  
 /* for pinnames see https://os.mbed.com/teams/Freescale/wiki/frdm-k64f-pinnames
- * for schematic see
- * https://github.com/ARMmbed/mbed-HDK/blob/master/Production%20Design%20Projects/ARM-mbed/ApplicationShield/v1.0.0/ApplicationShield%20V_1_0_0-SCH.pdf
  */
 
 /* Create a Digital-output for the K64F Red led
