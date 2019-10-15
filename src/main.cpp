@@ -61,9 +61,25 @@ char       symbols[5] = {'C','U','D','L','R'};
  */
 MMA7660 accel(I2C_SDA, I2C_SCL);
 
+/* Speaker is connected to pin D6
+ */
+PwmOut speaker(D6);
+
+/* Left button is SW3 
+ * If held with buttons down.
+ */
+DigitalIn leftbtn(SW3);
+
 int main() {
     lcd.cls();                  /* clear the screen */
     lcd.locate(0,0);            /* position at top-left corner */
+
+	/* Initialise speaker
+	 * A440 = 440Hz, period = 1/440s
+	 * period is 2273us
+	 */
+	speaker.period_us(2273);
+	speaker.write(0); /* turn off tone */
 
     while (true) { /* super loop */
 		int i;
@@ -90,6 +106,14 @@ int main() {
 		lcd.locate(72,16); /* half way across two rows down */
 		lcd.printf("Acc x: %.2f", accel.z() );
 
+		/* Poll left button
+		 * pressed produces logic 0
+		 */
+		if(leftbtn==0) {
+			speaker.write(0.5); /* 50% duty cycle -- turn on */
+		} else {
+			speaker.write(0.0); /*  0% duty cycle -- turn off */
+		}
         wait(0.5);
     }
 }
