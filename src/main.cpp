@@ -13,17 +13,17 @@ AnalogIn   pot2(A1);
 C12832 lcd(D11, D13, D12, D7, D10);
 
 int main() {
-	lcd.cls();
-	lcd.locate(0,0);
-	lcd.printf("Hello worlda\n");
+    lcd.cls();
+    lcd.locate(0,0);
+    lcd.printf("Hello worlda\n");
 
     while (true) {
         led1 = !led1;
         led2 = !led2;
 
-		lcd.locate(0,1);
-		lcd.printf("Pot 1 : %.2f\n", (float)pot1);
-		lcd.printf("Pot 2 : %.2f\n", (float)pot2);
+        lcd.locate(0,1);
+        lcd.printf("Pot 1 : %.2f\n", (float)pot1);
+        lcd.printf("Pot 2 : %.2f\n", (float)pot2);
 
         wait(0.5);
     }
