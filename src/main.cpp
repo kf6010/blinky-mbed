@@ -1,5 +1,6 @@
 #include "mbed.h"
 #include "C12832.h"
+#include "MMA7660.h"
 #include <stdio.h>
 
 /* for pinnames see
@@ -55,10 +56,14 @@ AnalogIn Right_pot(A1);
 DigitalIn joystick[5] = { D4, A2, A3, A4, A5};
 char       symbols[5] = {'C','U','D','L','R'};
 
+/* Accelerometer
+ * FRDM I2C connection
+ */
+MMA7660 accel(I2C_SDA, I2C_SCL);
+
 int main() {
     lcd.cls();                  /* clear the screen */
     lcd.locate(0,0);            /* position at top-left corner */
-    lcd.printf("Hello world\n");
 
     while (true) { /* super loop */
 		int i;
@@ -66,18 +71,25 @@ int main() {
         red = !red;
         AS_Green = !AS_Green;
 
-        lcd.locate(0,8);  /* position at left edge 8 bits (1 line) down */
-        lcd.printf(" Left Pot: %.2f\n", (float)Left_pot);
-        lcd.printf("Right Pot: %.2f\n", (float)Right_pot);
-
 		/* scan through joystick switches */
 		for( i=0 ; i<5 ; i++) {
 			if( joystick[i] ) {/*if joystick pressed */
 				js_symb = symbols[i]; /* set symbol indicator */
 			}
 		}
-		lcd.locate(64,0); /* half way across the top */
-		lcd.printf("joystick: %c", js_symb);
+
+        lcd.locate(0,0);  /* position at top left corner */
+        lcd.printf(" Left Pot: %.2f\n", (float)Left_pot);
+        lcd.printf("Right Pot: %.2f\n", (float)Right_pot);
+		lcd.printf(" joystick: %c\n", js_symb);
+
+		lcd.locate(72,0); /* half way across the top */
+		lcd.printf("Acc x: %.2f", accel.x() );
+		lcd.locate(72,8); /* half way across one row down */
+		lcd.printf("Acc x: %.2f", accel.y() );
+		lcd.locate(72,16); /* half way across two rows down */
+		lcd.printf("Acc x: %.2f", accel.z() );
+
         wait(0.5);
     }
 }
